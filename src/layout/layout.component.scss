@@ -1,0 +1,15 @@
+/* filepath: /home/leonardo/Documentos/filtdevtools/src/layout/layout.component.scss */
+.layout {
+  display: flex;
+  flex-direction: column;
+
+  .top-menubar {
+    width: 100%;
+  }
+
+  .content {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+}

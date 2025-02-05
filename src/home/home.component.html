@@ -1,0 +1,35 @@
+<main class="main">
+  <div class="content">
+    <span class="title">Escreva o comando no console 1:</span>
+    <div class="content-input">
+      <input type="text" pInputText [(ngModel)]="text" />
+      <p-button
+        label="Executar"
+        (onClick)="executarComando()"
+        [disabled]="!text"
+      ></p-button>
+    </div>
+    <p-message severity="success" *ngIf="msg">{{ msg }}</p-message>
+  </div>
+
+  <div class="hardware-info">
+    <p-card header="CPU">
+      <p>{{ hardwareInfo.cpu?.manufacturer }} {{ hardwareInfo.cpu?.brand }}</p>
+      <p>{{ hardwareInfo.cpu?.speed }} GHz</p>
+      <p>{{ hardwareInfo.cpu?.cores }} Cores</p>
+    </p-card>
+    <p-card header="Memory">
+      <p>Total: {{ hardwareInfo.mem?.total / (1024 * 1024 * 1024) | number:'1.0-2' }} GB</p>
+      <p>Free: {{ memoriaInfo.free / (1024 * 1024 * 1024) | number:'1.0-2' }} GB</p>
+      <p>Used: {{ memoriaInfo.used / (1024 * 1024 * 1024) | number:'1.0-2' }} GB</p>
+    </p-card>
+    <p-card header="OS">
+      <p>{{ hardwareInfo.osInfo?.distro }} {{ hardwareInfo.osInfo?.release }}</p>
+      <p>{{ hardwareInfo.osInfo?.arch }}</p>
+    </p-card>
+    <p-card header="Node.js">
+      <p>Node Version: {{ nodeInfo.nodeVersion }}</p>
+      <p>NPM Version: {{ nodeInfo.npmVersion }}</p>
+    </p-card>
+  </div>
+</main>

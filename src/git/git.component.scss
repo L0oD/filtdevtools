@@ -1,0 +1,21 @@
+/* filepath: /home/leonardo/Documentos/filtdevtools/src/git/git.component.scss */
+.git-layout {
+    display: flex;
+    min-height: 400px;
+  
+    .tree-container {
+      width: 250px; /* Largura fixa para a árvore */
+      border-right: 1px solid #ccc; /* Linha de separação */
+      padding: 1rem;
+      min-height: 400px;
+      overflow-y: auto; /* Rolagem vertical se necessário */
+    }
+  
+    .content-container {
+      flex: 1; /* Ocupar o restante do espaço */
+      padding: 1rem;
+      min-width: 600px;
+      min-height: 400px;
+      overflow-y: auto; /* Rolagem vertical se necessário */
+    }
+  }
