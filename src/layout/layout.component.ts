@@ -17,9 +17,14 @@ export class LayoutComponent {
       routerLink: ['/home'],
     },
     {
-      label: 'git',
+      label: 'Git',
       icon: 'pi pi-github',
       routerLink: ['/git'],
+    },
+    {
+      label: 'VPN',
+      icon: 'pi pi-wifi',
+      routerLink: ['/vpn'],
     }
   ];
 }

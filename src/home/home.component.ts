@@ -18,10 +18,6 @@ import { CardModule } from 'primeng/card'; // Adicione esta linha
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  text = '';
-  msg = '';
-  comando: string = '';
-  output: string = '';
   hardwareInfo: any = {}; // Adicione esta linha
   memoriaInfo: any = {}; // Adicione esta linha
   nodeInfo: any = {}; // Adicione esta linha
@@ -36,36 +32,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.intervalId) {
       clearInterval(this.intervalId);
-    }
-  }
-
-  onClick() {
-    this.msg = 'Welcome ' + this.text;
-  }
-
-  executarComando() {
-    console.log('rodou = executarComando');
-    this.comando = this.text;
-    if (!this.comando.trim()) {
-      console.log('Erro: Digite um comando antes de executar.');
-      this.output = "Erro: Digite um comando antes de executar.";
-      return;
-    }
-  
-    if (window.electronAPI) {
-      window.electronAPI.executarComando(this.comando)
-        .then((output: string) => {
-          console.log('Comando executado sem saída.');
-          this.msg = output;
-          this.output = output || "Comando executado sem saída.";
-        })
-        .catch((error: string) => {
-          console.log(`Erro: ${error}`);
-          this.output = `Erro: ${error}`;
-        });
-    } else {
-      console.log('Electron API não disponível..');
-      this.output = "Electron API não disponível.";
     }
   }
 

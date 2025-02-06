@@ -1,0 +1,26 @@
+/* filepath: /home/leonardo/Documentos/filtdevtools/src/vpn/vpn.component.scss */
+.vpn-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    margin: auto;
+  
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  
+    label {
+      font-weight: bold;
+    }
+  
+    input, p-dropdown, textarea {
+      width: 100%;
+    }
+  
+    p-button {
+      align-self: flex-start;
+    }
+  }

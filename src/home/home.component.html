@@ -1,17 +1,4 @@
 <main class="main">
-  <div class="content">
-    <span class="title">Escreva o comando no console 1:</span>
-    <div class="content-input">
-      <input type="text" pInputText [(ngModel)]="text" />
-      <p-button
-        label="Executar"
-        (onClick)="executarComando()"
-        [disabled]="!text"
-      ></p-button>
-    </div>
-    <p-message severity="success" *ngIf="msg">{{ msg }}</p-message>
-  </div>
-
   <div class="hardware-info">
     <p-card header="CPU">
       <p>{{ hardwareInfo.cpu?.manufacturer }} {{ hardwareInfo.cpu?.brand }}</p>
