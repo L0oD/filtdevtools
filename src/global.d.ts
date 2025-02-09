@@ -1,4 +1,7 @@
 import { TreeNode } from "primeng/api";
+import { Configuracao } from "../electron/database/models/configuracao.model";
+import { ConfiguracaoVpn } from "../electron/database/models/configuracaoVpn.model";
+import { Provedor } from "../electron/database/models/provedor.model";
 
 export {};
 
@@ -13,6 +16,10 @@ declare global {
       obterMemoria: () => Promise<any>;
       obterInfoNode: () => Promise<any>;
       verificarVpn: (ip: string) => Promise<boolean>;
+      obterConfiguracoes: () => Promise<any>;
+      obterConfiguracoesVpn: () => Promise<any>;
+      obterProvedores: () => Promise<any>; 
+      salvarConfiguracao: (configuracao: Configuracao) => Promise<any>;
     };
   }
 }

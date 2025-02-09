@@ -1,7 +1,7 @@
-/* filepath: /home/leonardo/Documentos/filtdevtools/src/layout/layout.component.scss */
 .layout {
   display: flex;
   flex-direction: column;
+  height: 100%; /* Define a altura do layout para ocupar toda a altura do body */
 
   .top-menubar {
     width: 100%;
@@ -11,5 +11,11 @@
     flex: 1;
     padding: 1rem;
     overflow-y: auto;
+    border: 1px solid var(--p-menubar-border-color);
+    border-radius: 4px;
+  }
+
+  .right-menu-item {
+    margin-left: auto; /* Empurra o item para o canto direito */
   }
 }

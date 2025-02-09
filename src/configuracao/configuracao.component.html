@@ -1,0 +1,14 @@
+<p-card>
+    <div class="header-content">
+      <span class="header-title">Configurações</span>
+      <p-button type="submit" label="Salvar" icon="pi pi-save" class="p-button-text" [disabled]="configuracaoForm.invalid" (click)="salvarConfiguracao()"></p-button>
+    </div>
+    <div class="configuracao-form">
+      <form [formGroup]="configuracaoForm">
+        <div class="form-group">
+          <label for="senhaSudo">Senha do Sudo</label>
+          <p-password id="senhaSudo" formControlName="senhaSudo" toggleMask></p-password>
+        </div>
+      </form>
+    </div>
+  </p-card>

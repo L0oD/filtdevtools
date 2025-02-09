@@ -9,5 +9,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
   obterInfoHardware: () => ipcRenderer.invoke("obter-info-hardware"),
   obterMemoria: () => ipcRenderer.invoke("obter-memoria"),
   obterInfoNode: () => ipcRenderer.invoke('obter-info-node'),
-
+  //dbHandlers
+  obterConfiguracoes: () => ipcRenderer.invoke('obter-configuracoes'),
+  salvarConfiguracao: (configuracao) => ipcRenderer.invoke('salvar-configuracao', configuracao),
+  obterConfiguracoesVpn: () => ipcRenderer.invoke('obter-configuracoes-vpn'), 
+  obterProvedores: () => ipcRenderer.invoke('obter-provedores'),
 });

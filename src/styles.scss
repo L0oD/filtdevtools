@@ -1,14 +1,17 @@
-
 html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  height: 100%; /* Adiciona altura de 100% ao html */
 }
 
 body {
   margin: 0;
-  padding: 2rem;
+  padding: 0;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: light-dark(var(--p-surface-0), var(--p-surface-950));
+  height: 100%; /* Adiciona altura de 100% ao body */
+  display:block !important;
+  flex-direction: column;
 }

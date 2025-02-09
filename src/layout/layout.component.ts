@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-layout',
   imports: [CommonModule, MenubarModule, RouterModule],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.scss'
+  styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent {
   menuItems = [
@@ -25,6 +25,12 @@ export class LayoutComponent {
       label: 'VPN',
       icon: 'pi pi-wifi',
       routerLink: ['/vpn'],
+    },
+    {
+      label: '',
+      icon: 'pi pi-cog',
+      routerLink: ['/configuracao'],
+      styleClass: 'right-menu-item' // Adiciona uma classe para estilização
     }
   ];
 }

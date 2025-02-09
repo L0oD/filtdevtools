@@ -1,19 +1,15 @@
 <div class="vpn-form">
     <div class="form-group">
       <label for="usuario">Usuário</label>
-      <input id="usuario" type="text" pInputText [(ngModel)]="usuario" />
+      <input id="usuario" type="text" pInputText [(ngModel)]="configuracaoVpn.usuario" />
     </div>
     <div class="form-group">
       <label for="senha">Senha</label>
-      <input id="senha" type="password" pPassword [(ngModel)]="senha" />
+      <input id="senha" type="password" pPassword [(ngModel)]="configuracaoVpn.senha" />
     </div>
     <div class="form-group">
-      <label for="sudoSenha">Senha do Sudo</label>
-      <input id="sudoSenha" type="password" pPassword [(ngModel)]="sudoSenha" />
-    </div>
-    <div class="form-group">
-      <label for="provider">Provedor</label>
-      <p-dropdown [options]="providers" [(ngModel)]="selectedProvider" placeholder="Selecione um provedor"></p-dropdown>
+      <label for="provedor">Provedor</label>
+      <p-dropdown [options]="provedores" [(ngModel)]="provedor" optionLabel="NOME" placeholder="Selecione um provedor"></p-dropdown>
     </div>
     <div class="form-group">
       <p-button label="Conectar" (onClick)="conectar()"></p-button>

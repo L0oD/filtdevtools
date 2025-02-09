@@ -4,6 +4,10 @@ const { registerCommandHandler } = require('./handlers/commandHandler');
 const { registerDirectoryHandler } = require('./handlers/directoryHandler');
 const { registerHardwareHandler } = require('./handlers/hardwareHandler');
 const { registerNodeHandler } = require('./handlers/nodeHandler');
+const { registerConfiguracaoHandler } = require('./handlers/dbHandlers/configuracao/configuracaoHandler');
+const { registerConfiguracaoVpnHandler } = require('./handlers/dbHandlers/configuracaoVpn/configuracaoVpnHandler');
+const { registerProvedorHandler } = require('./handlers/dbHandlers/provedor/provedorHandler');
+const db = require('./database/database'); 
 
 let mainWindow;
 
@@ -32,3 +36,13 @@ registerCommandHandler(ipcMain);
 registerDirectoryHandler(ipcMain);
 registerHardwareHandler(ipcMain);
 registerNodeHandler(ipcMain); 
+registerConfiguracaoHandler(ipcMain); // Registra os handlers de configuração
+  registerConfiguracaoVpnHandler(ipcMain); // Registra os handlers de configuração VPN
+  registerProvedorHandler(ipcMain); // Registra os handlers de provedor
+
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
