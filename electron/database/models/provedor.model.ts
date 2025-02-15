@@ -12,4 +12,8 @@ export class Provedor {
     this.porta = porta;
     this.trustedCert = trustedCert;
   }
+
+  static get tableName() {
+    return 'PROVEDOR';
+  }
 }

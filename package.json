@@ -9,7 +9,8 @@
     "electron": "electron . --no-sandbox",
     "electron-dev": "cross-env NODE_ENV=development electron . --no-sandbox",
     "wait-on": "wait-on http://localhost:4200",
-    "start-dev": "npm-run-all --parallel start-front wait-on electron-dev"
+    "start-dev": "npm-run-all --parallel start-front wait-on electron-dev",
+    "migrate": "knex --knexfile electron/database/knexfile.js migrate:latest"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +24,7 @@
     "@angular/router": "^19.0.0",
     "@primeng/themes": "^19.0.0",
     "electron": "^16.0.0",
+    "knex": "^3.1.0",
     "npm-run-all": "^4.1.5",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.0",

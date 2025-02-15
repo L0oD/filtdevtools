@@ -8,4 +8,8 @@ export class Configuracao {
     this.senhaSudo = senhaSudo;
     this.configuracaoVpnId = configuracaoVpnId;
   }
+
+  static get tableName() {
+    return 'CONFIGURACAO';
+  }
 }

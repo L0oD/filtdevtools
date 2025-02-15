@@ -12,4 +12,8 @@ export class ConfiguracaoVpn {
     this.conectarAuto = conectarAuto;
     this.provedorId = provedorId;
   }
+
+  static get tableName() {
+    return 'CONFIGURACAO_VPN';
+  }
 }

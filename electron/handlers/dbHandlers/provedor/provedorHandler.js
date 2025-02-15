@@ -1,19 +1,14 @@
-const db = require('../../../database/database');
+const db = require('../../../database/knex');
 
 function registerProvedorHandler(ipcMain) {
   ipcMain.handle('obter-provedores', async () => {
-    console.log('obter-provedores')
-    return new Promise((resolve, reject) => {
-      db.all('SELECT * FROM PROVEDOR', (err, rows) => {
-        if (err) {
-          console.error('Erro ao obter provedores do banco de dados:', err);
-          reject('Erro ao obter provedores do banco de dados.');
-        } else {
-          console.log('obter-provedores '+rows)
-          resolve(rows);
-        }
-      });
-    });
+    try {
+      const rows = await db('PROVEDOR').select('*');
+      return rows;
+    } catch (err) {
+      console.error('Erro ao obter provedores do banco de dados:', err);
+      throw new Error('Erro ao obter provedores do banco de dados.');
+    }
   });
 }
 
