@@ -14,4 +14,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
   salvarConfiguracao: (configuracao) => ipcRenderer.invoke('salvar-configuracao', configuracao),
   obterConfiguracoesVpn: () => ipcRenderer.invoke('obter-configuracoes-vpn'), 
   obterProvedores: () => ipcRenderer.invoke('obter-provedores'),
+  salvarUsuarioVpn: (usuarioVpn) => ipcRenderer.invoke('salvar-usuario-vpn', usuarioVpn),
+  obterUsuariosVpn: () => ipcRenderer.invoke('obter-usuarios-vpn')
 });

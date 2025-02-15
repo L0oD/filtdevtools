@@ -9,11 +9,16 @@ exports.up = function(knex) {
       })
       .createTable('CONFIGURACAO_VPN', function(table) {
         table.increments('CONFIGURACAO_VPN_ID').primary();
-        table.string('USUARIO').notNullable();
-        table.string('SENHA').notNullable();
         table.boolean('CONECTAR_AUTO').notNullable();
         table.integer('PROVEDOR_ID').unsigned().notNullable();
         table.foreign('PROVEDOR_ID').references('PROVEDOR_ID').inTable('PROVEDOR');
+        table.integer('USUARIO_VPN_ID').unsigned().notNullable();
+        table.foreign('USUARIO_VPN_ID').references('USUARIO_VPN_ID').inTable('USUARIO_VPN');
+      })
+      .createTable('USUARIO_VPN', function(table) {
+        table.increments('USUARIO_VPN_ID').primary();
+        table.string('USUARIO').notNullable();
+        table.string('SENHA').notNullable
       })
       .createTable('CONFIGURACAO', function(table) {
         table.increments('CONFIGURACAO_ID').primary();
@@ -27,5 +32,6 @@ exports.up = function(knex) {
     return knex.schema
       .dropTable('CONFIGURACAO')
       .dropTable('CONFIGURACAO_VPN')
-      .dropTable('PROVEDOR');
+      .dropTable('PROVEDOR')
+      .dropTable('USUARIO_VPN');
   };

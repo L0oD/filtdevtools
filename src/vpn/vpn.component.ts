@@ -4,13 +4,17 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { DialogModule } from 'primeng/dialog';
 import { Configuracao } from '../../electron/database/models/configuracao.model';
 import { ConfiguracaoVpn } from '../../electron/database/models/configuracaoVpn.model';
 import { Provedor } from '../../electron/database/models/provedor.model';
+import { UsuarioVpn } from '../../electron/database/models/usuarioVpn.model';
+import { Card } from 'primeng/card';
 
 @Component({
   selector: 'app-vpn',
-  imports: [FormsModule, InputTextModule, PasswordModule, DropdownModule, ButtonModule],
+  imports: [FormsModule, InputTextModule, PasswordModule, DropdownModule, ButtonModule, AutoCompleteModule, DialogModule, Card],
   templateUrl: './vpn.component.html',
   styleUrl: './vpn.component.scss'
 })
@@ -18,6 +22,10 @@ export class VpnComponent implements OnInit, OnDestroy {
   configuracao: Configuracao = new Configuracao();
   configuracaoVpn: ConfiguracaoVpn = new ConfiguracaoVpn();
   provedores: Provedor[] = [];
+  usuariosVpn: UsuarioVpn[] = [];
+  listUsuariosVpn: UsuarioVpn[] = [];
+  usuarioVpn: UsuarioVpn = new UsuarioVpn();
+  dialogoUsuarioVpnVisivel: boolean = false;
   terminalOutput: string = '';
   vpnConnected: boolean = false;
   vpnStatusInterval: any;
@@ -62,7 +70,6 @@ export class VpnComponent implements OnInit, OnDestroy {
     if (window.electronAPI) {
       window.electronAPI.obterConfiguracoesVpn()
         .then((configuracoesVpn: ConfiguracaoVpn[]) => {
-          
           if (configuracoesVpn.length > 0) {
             this.configuracaoVpn = configuracoesVpn[0];
           }
@@ -77,11 +84,53 @@ export class VpnComponent implements OnInit, OnDestroy {
     if (window.electronAPI) {
       window.electronAPI.obterProvedores()
         .then((provedores: Provedor[]) => {
-          console.log('provedores = '+JSON.stringify(provedores))
           this.provedores = provedores;
         })
         .catch((error: string) => {
           this.terminalOutput += `Erro ao obter provedores: ${error}`;
+        });
+    }
+  }
+
+  buscarUsuariosVpn(event: any) {
+    if (window.electronAPI) {
+      window.electronAPI.obterUsuariosVpn()
+        .then((usuariosVpn: UsuarioVpn[]) => {
+          this.terminalOutput += `UsuarioVpn: ${JSON.stringify(usuariosVpn)}`;
+          if (usuariosVpn.length > 0) {
+            this.listUsuariosVpn = usuariosVpn;
+          }
+        })
+        .catch((error: string) => {
+          this.terminalOutput += `Erro ao obter usuários VPN: ${error}`;
+        });
+    }
+  }
+
+  abrirDialogoUsuarioVpn(usuarioVpn?: UsuarioVpn) {
+    if (usuarioVpn) {
+      this.usuarioVpn = { ...usuarioVpn };
+    } else {
+      this.usuarioVpn = new UsuarioVpn();
+    }
+    this.dialogoUsuarioVpnVisivel = true;
+  }
+
+  salvarUsuarioVpn() {
+    if (window.electronAPI) {
+      window.electronAPI.salvarUsuarioVpn(this.usuarioVpn)
+        .then((usuarioVpnSalvo: UsuarioVpn) => {
+          const index = this.usuariosVpn.findIndex(u => u.usuarioVpnId === usuarioVpnSalvo.usuarioVpnId);
+          if (index !== -1) {
+            this.usuariosVpn[index] = usuarioVpnSalvo;
+          } else {
+            this.usuariosVpn.push(usuarioVpnSalvo);
+          }
+          this.configuracaoVpn.usuarioVpn = usuarioVpnSalvo;
+          this.dialogoUsuarioVpnVisivel = false;
+        })
+        .catch((error: string) => {
+          this.terminalOutput += `Erro ao salvar usuário VPN: ${error}`;
         });
     }
   }
@@ -92,7 +141,7 @@ export class VpnComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const comando = `echo ${this.configuracao.senhaSudo} | sudo -S openfortivpn ${this.provedor.ip}:${this.provedor.porta} -u ${this.configuracaoVpn.usuario} -p ${this.configuracaoVpn.senha} --trusted-cert ${this.provedor.trustedCert}`;
+    const comando = `echo ${this.configuracao.senhaSudo} | sudo -S openfortivpn ${this.provedor.ip}:${this.provedor.porta} -u ${this.configuracaoVpn.usuarioVpn?.usuario} -p ${this.configuracaoVpn.usuarioVpn?.senha} --trusted-cert ${this.provedor.trustedCert}`;
     console.log('Comando: ', comando);
     if (window.electronAPI) {
       window.electronAPI.executarComando(comando)
@@ -124,7 +173,6 @@ export class VpnComponent implements OnInit, OnDestroy {
   }
 
   verificarVpnStatus() {
-
     if (this.provedor.ip === '') {
       return;
     }

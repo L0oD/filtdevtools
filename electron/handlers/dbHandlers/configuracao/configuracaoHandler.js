@@ -3,7 +3,9 @@ const db = require('../../../database/knex');
 function registerConfiguracaoHandler(ipcMain) {
   ipcMain.handle('obter-configuracoes', async () => {
     try {
-      const rows = await db('CONFIGURACAO').select('*');
+      const rows = await db('CONFIGURACAO')
+        .join('CONFIGURACAO_VPN', 'CONFIGURACAO.CONFIGURACAO_VPN_ID', 'CONFIGURACAO_VPN.CONFIGURACAO_VPN_ID')
+        .select('CONFIGURACAO.*', 'CONFIGURACAO_VPN.*');
       return rows;
     } catch (err) {
       console.error('Erro ao obter configurações do banco de dados:', err);

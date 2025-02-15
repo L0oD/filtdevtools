@@ -7,7 +7,7 @@ const { registerNodeHandler } = require('./handlers/nodeHandler');
 const { registerConfiguracaoHandler } = require('./handlers/dbHandlers/configuracao/configuracaoHandler');
 const { registerConfiguracaoVpnHandler } = require('./handlers/dbHandlers/configuracaoVpn/configuracaoVpnHandler');
 const { registerProvedorHandler } = require('./handlers/dbHandlers/provedor/provedorHandler');
-const db = require('./database/knex'); 
+const { registerUsuarioVpnHandler } = require('./handlers/dbHandlers/usuarioVpn/usuarioVpnHandler');
 
 let mainWindow;
 
@@ -39,6 +39,7 @@ registerNodeHandler(ipcMain);
 registerConfiguracaoHandler(ipcMain); // Registra os handlers de configuração
 registerConfiguracaoVpnHandler(ipcMain); // Registra os handlers de configuração VPN
 registerProvedorHandler(ipcMain); // Registra os handlers de provedor
+registerUsuarioVpnHandler(ipcMain); // Registra os handlers de usuário VPN
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
