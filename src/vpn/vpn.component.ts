@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -11,10 +11,12 @@ import { ConfiguracaoVpn } from '../../electron/database/models/configuracaoVpn.
 import { Provedor } from '../../electron/database/models/provedor.model';
 import { UsuarioVpn } from '../../electron/database/models/usuarioVpn.model';
 import { Card } from 'primeng/card';
+import { LookupbasicComponent } from '../baseComponents/lookupbasic/lookupbasic.component';
+import {UsuarioVpnFormComponent} from '../usuarioVpn/usuario-vpn.form/usuario-vpn.form.component';
 
 @Component({
   selector: 'app-vpn',
-  imports: [FormsModule, InputTextModule, PasswordModule, DropdownModule, ButtonModule, AutoCompleteModule, DialogModule, Card],
+  imports: [FormsModule, InputTextModule, PasswordModule, DropdownModule, ButtonModule, AutoCompleteModule, DialogModule, Card, LookupbasicComponent, UsuarioVpnFormComponent],
   templateUrl: './vpn.component.html',
   styleUrl: './vpn.component.scss'
 })
@@ -30,6 +32,13 @@ export class VpnComponent implements OnInit, OnDestroy {
   vpnConnected: boolean = false;
   vpnStatusInterval: any;
   provedor: Provedor = new Provedor();
+  display: boolean = false;
+
+  @ViewChild('lookup') lookup!: LookupbasicComponent;
+  @ViewChild('usuarioVpnForm') usuarioVpnForm!: UsuarioVpnFormComponent;
+  
+  data: any[] = [];
+  columns: any[] = [];
 
   ngOnInit() {
     if (window.electronAPI) {
@@ -40,6 +49,7 @@ export class VpnComponent implements OnInit, OnDestroy {
       this.carregarConfiguracoesVpn();
       this.carregarProvedores();
       this.verificarVpnStatus();
+      this.buscarUsuariosVpn(null);
       this.vpnStatusInterval = setInterval(() => {
         this.verificarVpnStatus();
       }, 5000); // Verifica o status da VPN a cada 5 segundos
@@ -98,6 +108,7 @@ export class VpnComponent implements OnInit, OnDestroy {
         .then((usuariosVpn: UsuarioVpn[]) => {
           this.terminalOutput += `UsuarioVpn: ${JSON.stringify(usuariosVpn)}`;
           if (usuariosVpn.length > 0) {
+            this.data = usuariosVpn;
             this.listUsuariosVpn = usuariosVpn;
           }
         })
@@ -186,5 +197,29 @@ export class VpnComponent implements OnInit, OnDestroy {
           this.terminalOutput += `Erro ao verificar status da VPN: ${error}`;
         });
     }
+  }
+  openDialog() {
+    this.display = true;
+  }  
+
+  onRowSelectHandler(data: any) {
+    console.log('data = ', data);
+    const newUsuarioVpn = new UsuarioVpn(data.USUARIO, data.SENHA, data.USUARIO_VPN_ID);
+    console.log('data = ', newUsuarioVpn);
+    this.usuarioVpnForm.currentUsuarioVpn = newUsuarioVpn;
+    this.usuarioVpnForm.updateForm();
+  }
+
+  onRowDoubleClickHandler(data: any) {
+    this.usuarioVpn.usuario = data.USUARIO;
+    this.display = false;
+  }
+
+  onUsuarioVpnSalvo() {
+    this.buscarUsuariosVpn(null);
+  }
+  
+  onUsuarioVpnDeletado() {
+    this.buscarUsuariosVpn(null);
   }
 }

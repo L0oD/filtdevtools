@@ -1,0 +1,26 @@
+<p-toast></p-toast>
+<p-card>
+    <div class="header-content">
+      <span class="header-title">Usuário</span>
+      <div>
+        <p-button type="submit" label="Novo" icon="pi pi-plus"
+          (click)="novoUsuarioVpn()" class="button-spacing"></p-button>
+        <p-button type="submit" label="Salvar" icon="pi pi-save" [disabled]="usuarioVpnForm.invalid"
+          (click)="salvarUsuarioVpn()" class="button-spacing"></p-button>
+    
+        <p-button type="submit" label="Deletar" icon="pi pi-trash" [disabled]="disableDeleteButton()"
+          (click)="deletaUsuarioVpn()" class="button-spacing"></p-button>
+      </div>
+      
+    </div>
+    <div class="usuarioVpn-form">
+      <form [formGroup]="usuarioVpnForm">
+        <div class="form-group">
+          <label for="usuario">Usuário</label>
+          <input id="usuario" formControlName="usuario" type="text" pInputText />
+          <label for="senha">Senha</label>
+          <p-password id="senha" formControlName="senha" toggleMask></p-password>
+        </div>
+      </form>
+    </div>
+  </p-card>

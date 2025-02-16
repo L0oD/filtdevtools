@@ -31,6 +31,15 @@ function registerUsuarioVpnHandler(ipcMain) {
       throw new Error('Erro ao salvar usuário VPN no banco de dados.');
     }
   });
+
+  ipcMain.handle('remover-usuario-vpn', async (event, usuarioVpnId) => {
+    try {
+      await db('USUARIO_VPN').delete().where('USUARIO_VPN_ID', usuarioVpnId);
+    } catch (err) {
+      console.error('Erro ao remover usuário VPN do banco de dados:', err);
+      throw new Error('Erro ao remover usuário VPN do banco de dados.');
+    }
+  });
 }
 
 module.exports = { registerUsuarioVpnHandler };

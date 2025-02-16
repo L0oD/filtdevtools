@@ -1,0 +1,47 @@
+
+.usuarioVpn-form {
+    padding: 40px;
+  
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  
+    label {
+      font-weight: bold;
+    }
+  
+    input, p-dropdown, textarea {
+      width: 100%;
+    }
+  
+    p-button {
+      align-self: flex-start;
+    }
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--p-menubar-border-color);
+
+  }
+
+  .button-spacing {
+    margin-right: 10px; // Ajuste o valor conforme necessário
+  }
+  
+  .header-title {
+    font-weight: bold;
+  font-size: 1.5rem;
+  }
+
+
+  ::ng-deep .p-card.p-component {
+    height: 100% !important;
+    display: flex;
+    flex-direction: column;
+  }

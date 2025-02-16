@@ -22,6 +22,7 @@ declare global {
       salvarConfiguracao: (configuracao: Configuracao) => Promise<any>;
       salvarUsuarioVpn: (usuarioVpn: any) => Promise<any>;
       obterUsuariosVpn: () => Promise<any>;
+      removerUsuarioVpn: (usuarioVpnId: any) => Promise<any>;
     };
   }
 }

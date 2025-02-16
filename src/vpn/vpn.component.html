@@ -7,10 +7,11 @@
       <div class="vpn-form">
         <div class="form-group">
           <label for="usuarioVpn">Usuário VPN</label>
-          <p-autoComplete [(ngModel)]="configuracaoVpn.usuarioVpn" [suggestions]="listUsuariosVpn" (completeMethod)="buscarUsuariosVpn($event)" field="USUARIO" [dropdown]="true"></p-autoComplete>
-          <p-button label="Novo" icon="pi pi-plus" (onClick)="abrirDialogoUsuarioVpn()"></p-button>
           <p-button label="Editar" icon="pi pi-pencil" (onClick)="abrirDialogoUsuarioVpn(configuracaoVpn.usuarioVpn)"></p-button>
         </div>
+        
+       <input type="text" pInputText [(ngModel)]="usuarioVpn.usuario" field="USUARIO" />
+        <button pButton type="button" label="Show Lookup" icon="pi pi-search" (click)="this.openDialog()"></button>
       </div>
     </p-card>
   </div>
@@ -21,34 +22,14 @@
         <label for="provedor">Provedor</label>
         <p-dropdown [options]="provedores" [(ngModel)]="provedor" optionLabel="NOME" placeholder="Selecione um provedor"></p-dropdown>
       </div>
-      <div class="form-group">
-        <p-button label="Conectar" (onClick)="conectar()"></p-button>
-        <p-button label="Desconectar" (onClick)="desconectar()"></p-button>
-      </div>
-      <div class="form-group">
-        <label for="terminalOutput">Retorno do Terminal</label>
-        <textarea id="terminalOutput" rows="5" cols="30" readonly>{{ terminalOutput }}</textarea>
-      </div>
-      <div class="form-group">
-        <label>Status da VPN:</label>
-        <span [style.color]="vpnConnected ? 'green' : 'red'">
-          {{ vpnConnected ? 'Conectado' : 'Desconectado' }}
-        </span>
-      </div>
     </p-card>
   </div>
 </div>
 
-<p-dialog header="Usuário VPN" [(visible)]="dialogoUsuarioVpnVisivel" [modal]="true" [closable]="false">
-  <div class="form-group">
-    <label for="usuario">Usuário</label>
-    <input id="usuario" type="text" pInputText [(ngModel)]="usuarioVpn.usuario">
-  </div>
-  <div class="form-group">
-    <label for="senha">Senha</label>
-    <input id="senha" type="password" pInputText [(ngModel)]="usuarioVpn.senha">
-  </div>
-    <p-button label="Salvar" icon="pi pi-check" (onClick)="salvarUsuarioVpn()"></p-button>
-    <p-button label="Cancelar" icon="pi pi-times" (onClick)="dialogoUsuarioVpnVisivel = false"></p-button>
-
+<p-dialog [modal]="true" [(visible)]="display">
+  <app-lookupbasic #lookup [data]="data" 
+  (rowSelect)="onRowSelectHandler($event)"
+  (onRowDoubleClick)="onRowDoubleClickHandler($event)"></app-lookupbasic>
+  <app-usuario-vpn-form #usuarioVpnForm (usuarioVpnSalvo)="onUsuarioVpnSalvo()"
+  (usuarioVpnDeletado)="onUsuarioVpnDeletado()"></app-usuario-vpn-form>
 </p-dialog>
