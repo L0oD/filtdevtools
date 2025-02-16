@@ -1,0 +1,6 @@
+<div class="input-button-group">
+    <input type="text" pInputText [(ngModel)]="usuarioVpn.usuario" disabled="true" class="no-right-border-radius"/>
+    <button pButton type="button" icon="pi pi-search" (click)="openDialogUsuarioVpn()" class="no-left-border-radius"></button>
+  </div>
+  
+  <app-lookup-and-crud-usuario-vpn #lookupAndCrudUsuarioVpn (onDoubleClickSelected)="setInputUsuarioVpn($event)"></app-lookup-and-crud-usuario-vpn>

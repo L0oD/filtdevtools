@@ -1,0 +1,7 @@
+<p-dialog [modal]="true" [(visible)]="display">
+    <app-lookupbasic #lookup [data]="data" 
+    (rowSelect)="onRowSelectHandler($event)"
+    (onRowDoubleClick)="onRowDoubleClickHandler($event)"></app-lookupbasic>
+    <app-usuario-vpn-form #usuarioVpnForm (usuarioVpnSalvo)="onUsuarioVpnSalvo()"
+    (usuarioVpnDeletado)="onUsuarioVpnDeletado()"></app-usuario-vpn-form>
+  </p-dialog>

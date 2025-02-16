@@ -11,12 +11,10 @@ import { ConfiguracaoVpn } from '../../electron/database/models/configuracaoVpn.
 import { Provedor } from '../../electron/database/models/provedor.model';
 import { UsuarioVpn } from '../../electron/database/models/usuarioVpn.model';
 import { Card } from 'primeng/card';
-import { LookupbasicComponent } from '../baseComponents/lookupbasic/lookupbasic.component';
-import {UsuarioVpnFormComponent} from '../usuarioVpn/usuario-vpn.form/usuario-vpn.form.component';
-
+import {InputAndLookupCrudComponent} from '../usuarioVpn/input-and-lookup-crud-usuario-vpn/input-and-lookup-crud-usuario-vpn.component';
 @Component({
   selector: 'app-vpn',
-  imports: [FormsModule, InputTextModule, PasswordModule, DropdownModule, ButtonModule, AutoCompleteModule, DialogModule, Card, LookupbasicComponent, UsuarioVpnFormComponent],
+  imports: [InputAndLookupCrudComponent,FormsModule, InputTextModule, PasswordModule, DropdownModule, ButtonModule, AutoCompleteModule, DialogModule, Card],
   templateUrl: './vpn.component.html',
   styleUrl: './vpn.component.scss'
 })
@@ -27,18 +25,12 @@ export class VpnComponent implements OnInit, OnDestroy {
   usuariosVpn: UsuarioVpn[] = [];
   listUsuariosVpn: UsuarioVpn[] = [];
   usuarioVpn: UsuarioVpn = new UsuarioVpn();
-  dialogoUsuarioVpnVisivel: boolean = false;
   terminalOutput: string = '';
   vpnConnected: boolean = false;
   vpnStatusInterval: any;
   provedor: Provedor = new Provedor();
-  display: boolean = false;
 
-  @ViewChild('lookup') lookup!: LookupbasicComponent;
-  @ViewChild('usuarioVpnForm') usuarioVpnForm!: UsuarioVpnFormComponent;
   
-  data: any[] = [];
-  columns: any[] = [];
 
   ngOnInit() {
     if (window.electronAPI) {
@@ -49,7 +41,6 @@ export class VpnComponent implements OnInit, OnDestroy {
       this.carregarConfiguracoesVpn();
       this.carregarProvedores();
       this.verificarVpnStatus();
-      this.buscarUsuariosVpn(null);
       this.vpnStatusInterval = setInterval(() => {
         this.verificarVpnStatus();
       }, 5000); // Verifica o status da VPN a cada 5 segundos
@@ -98,50 +89,6 @@ export class VpnComponent implements OnInit, OnDestroy {
         })
         .catch((error: string) => {
           this.terminalOutput += `Erro ao obter provedores: ${error}`;
-        });
-    }
-  }
-
-  buscarUsuariosVpn(event: any) {
-    if (window.electronAPI) {
-      window.electronAPI.obterUsuariosVpn()
-        .then((usuariosVpn: UsuarioVpn[]) => {
-          this.terminalOutput += `UsuarioVpn: ${JSON.stringify(usuariosVpn)}`;
-          if (usuariosVpn.length > 0) {
-            this.data = usuariosVpn;
-            this.listUsuariosVpn = usuariosVpn;
-          }
-        })
-        .catch((error: string) => {
-          this.terminalOutput += `Erro ao obter usuários VPN: ${error}`;
-        });
-    }
-  }
-
-  abrirDialogoUsuarioVpn(usuarioVpn?: UsuarioVpn) {
-    if (usuarioVpn) {
-      this.usuarioVpn = { ...usuarioVpn };
-    } else {
-      this.usuarioVpn = new UsuarioVpn();
-    }
-    this.dialogoUsuarioVpnVisivel = true;
-  }
-
-  salvarUsuarioVpn() {
-    if (window.electronAPI) {
-      window.electronAPI.salvarUsuarioVpn(this.usuarioVpn)
-        .then((usuarioVpnSalvo: UsuarioVpn) => {
-          const index = this.usuariosVpn.findIndex(u => u.usuarioVpnId === usuarioVpnSalvo.usuarioVpnId);
-          if (index !== -1) {
-            this.usuariosVpn[index] = usuarioVpnSalvo;
-          } else {
-            this.usuariosVpn.push(usuarioVpnSalvo);
-          }
-          this.configuracaoVpn.usuarioVpn = usuarioVpnSalvo;
-          this.dialogoUsuarioVpnVisivel = false;
-        })
-        .catch((error: string) => {
-          this.terminalOutput += `Erro ao salvar usuário VPN: ${error}`;
         });
     }
   }
@@ -198,28 +145,5 @@ export class VpnComponent implements OnInit, OnDestroy {
         });
     }
   }
-  openDialog() {
-    this.display = true;
-  }  
-
-  onRowSelectHandler(data: any) {
-    console.log('data = ', data);
-    const newUsuarioVpn = new UsuarioVpn(data.USUARIO, data.SENHA, data.USUARIO_VPN_ID);
-    console.log('data = ', newUsuarioVpn);
-    this.usuarioVpnForm.currentUsuarioVpn = newUsuarioVpn;
-    this.usuarioVpnForm.updateForm();
-  }
-
-  onRowDoubleClickHandler(data: any) {
-    this.usuarioVpn.usuario = data.USUARIO;
-    this.display = false;
-  }
-
-  onUsuarioVpnSalvo() {
-    this.buscarUsuariosVpn(null);
-  }
   
-  onUsuarioVpnDeletado() {
-    this.buscarUsuariosVpn(null);
-  }
 }
